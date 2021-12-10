@@ -2550,9 +2550,7 @@ impl AccountsDb {
         purged_account_slots: Option<&mut AccountSlots>,
         purge_stats: &PurgeStats,
     ) {
-        if dead_slots.is_empty() {
-            return;
-        }
+        if dead_slots.is_empty() { return; }
         let mut clean_dead_slots = Measure::start("reclaims::clean_dead_slots");
         self.clean_stored_dead_slots(dead_slots, purged_account_slots);
         clean_dead_slots.stop();
@@ -2562,8 +2560,7 @@ impl AccountsDb {
         purge_removed_slots.stop();
 
         // If the slot is dead, remove the need to shrink the storages as
-        // the storage entries will be purged.
-        {
+        // the storage entries will be purged. {
             let mut list = self.shrink_candidate_slots.lock().unwrap();
             for slot in dead_slots {
                 list.remove(slot);
@@ -2586,10 +2583,9 @@ impl AccountsDb {
         unrefed_pubkeys: &mut Vec<&'a Pubkey>,
     ) -> usize
     where
-        I: Iterator<Item = &'a (Pubkey, FoundStoredAccount<'a>)>,
-    {
+        I: Iterator<Item = &'a (Pubkey, FoundStoredAccount<'a>)>, {
+            
         let mut alive_total = 0;
-
         let mut alive = 0;
         let mut dead = 0;
         iter.for_each(|(pubkey, stored_account)| {
@@ -2626,8 +2622,8 @@ impl AccountsDb {
 
     fn do_shrink_slot_stores<'a, I>(&'a self, slot: Slot, stores: I) -> usize
     where
-        I: Iterator<Item = &'a Arc<AccountStorageEntry>>,
-    {
+        I: Iterator<Item = &'a Arc<AccountStorageEntry>>, {
+            
         debug!("do_shrink_slot_stores: slot: {}", slot);
         let mut stored_accounts: HashMap<Pubkey, FoundStoredAccount> = HashMap::new();
         let mut original_bytes = 0;
